@@ -13,10 +13,12 @@ import java.io.IOException;
 
 import io.fabo.driver.Adx345AccelerometerDriver;
 import io.fabo.driver.ISL29034AmbientDriver;
+import io.fabo.driver.S11059ColorDriver;
 
 public class MainActivity extends Activity implements SensorEventListener {
     private Adx345AccelerometerDriver mAdx345AccelerometerDriver;
     private ISL29034AmbientDriver mISL29034AmbientDriver;
+    private S11059ColorDriver mS11059ColorDriver;
 
     private SensorManager mSensorManager;
     //private static final String TAG = MainActivity.class.getSimpleName();
@@ -31,11 +33,16 @@ public class MainActivity extends Activity implements SensorEventListener {
         mSensorManager.registerDynamicSensorCallback(new SensorManager.DynamicSensorCallback() {
             @Override
             public void onDynamicSensorConnected(Sensor sensor) {
-                Log.i(TAG, "Connected!");
-                if (sensor.getType() == Sensor.TYPE_LIGHT) {
-                    Log.i(TAG, "Light sensor connected");
-                    mSensorManager.registerListener(MainActivity.this, sensor,
-                            SensorManager.SENSOR_DELAY_NORMAL);
+                Log.i(TAG, "Connected");
+                Log.i(TAG, "sensor.getType():" + sensor.getType());
+                Log.i(TAG, "sensor.getName():" + sensor.getName());
+                if (sensor.getType() == Sensor.TYPE_DEVICE_PRIVATE_BASE) {
+                    Log.i(TAG, "sensor.getName():" + sensor.getName());
+                    if(sensor.getName().startsWith("FaBoS11059")) {
+                        Log.i(TAG, "Light sensor connected");
+                        mSensorManager.registerListener(MainActivity.this, sensor,
+                                SensorManager.SENSOR_DELAY_NORMAL);
+                    }
                 }
             }
         });
@@ -49,10 +56,20 @@ public class MainActivity extends Activity implements SensorEventListener {
         }
         */
 
+        /*
         try {
             mISL29034AmbientDriver = new ISL29034AmbientDriver(BoardDefaults.getI2CPort());
             mISL29034AmbientDriver.register();
             Log.i(TAG, "Accelerometer driver registered");
+        } catch (IOException e) {
+            Log.e(TAG, "Error initializing accelerometer driver: ", e);
+        }
+        */
+
+        try {
+            mS11059ColorDriver = new S11059ColorDriver(BoardDefaults.getI2CPort());
+            mS11059ColorDriver.register();
+            Log.i(TAG, "mS11059ColorDriver driver registered");
         } catch (IOException e) {
             Log.e(TAG, "Error initializing accelerometer driver: ", e);
         }
@@ -76,6 +93,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         }
         */
 
+        /*
         if (mISL29034AmbientDriver != null) {
             mSensorManager.unregisterListener(this);
             mISL29034AmbientDriver.unregister();
@@ -85,6 +103,19 @@ public class MainActivity extends Activity implements SensorEventListener {
                 Log.e(TAG, "Error closing accelerometer driver: ", e);
             } finally {
                 mISL29034AmbientDriver = null;
+            }
+        }
+        */
+
+        if (mS11059ColorDriver != null) {
+            mSensorManager.unregisterListener(this);
+            mS11059ColorDriver.unregister();
+            try {
+                mS11059ColorDriver.close();
+            } catch (IOException e) {
+                Log.e(TAG, "Error closing accelerometer driver: ", e);
+            } finally {
+                mS11059ColorDriver = null;
             }
         }
     }
@@ -98,6 +129,9 @@ public class MainActivity extends Activity implements SensorEventListener {
                     event.values[0] + ", " + event.values[1] + ", " + event.values[2]);
         } else if(event.sensor.getName().startsWith("FaBoISL29034")) {
             Log.i(TAG, "Ambient event: " + event.values[0]);
+        } else if(event.sensor.getName().startsWith("FaBoS11059")) {
+            Log.i(TAG, "Color event: " + event.values[0] + ", " + event.values[1] + ", "
+                    + event.values[2] + ", " + event.values[3]);
         }
     }
 
