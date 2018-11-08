@@ -196,7 +196,4 @@ public class Adx345 implements AutoCloseable {
                 x, y, z
         };
     }
-
-
-
 }

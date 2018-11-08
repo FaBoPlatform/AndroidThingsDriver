@@ -10,13 +10,13 @@ import com.google.android.things.userdriver.sensor.UserSensorReading;
 import java.io.IOException;
 import java.util.UUID;
 
-public class Adx345AccelerometerDriver implements AutoCloseable {
+public class ISL29034AmbientDriver implements AutoCloseable {
 
-    private static final String TAG = Adx345AccelerometerDriver.class.getSimpleName();
-    private static final String DRIVER_NAME = "FaBoAdx345";
-    private static final String DRIVER_VENDOR = "GClue";
+    private static final String TAG = ISL29034AmbientDriver.class.getSimpleName();
+    private static final String DRIVER_NAME = "FaBoISL29034";
+    private static final String DRIVER_VENDOR = "FaBo";
     private static final int DRIVER_VERSION = 1;
-    private Adx345 mDevice;
+    private ISL29034 mDevice;
     private UserSensor mUserSensor;
 
     /**
@@ -26,8 +26,8 @@ public class Adx345AccelerometerDriver implements AutoCloseable {
      * @throws IOException
      * @see #register()
      */
-    public Adx345AccelerometerDriver(String bus) throws IOException {
-        mDevice = new Adx345(bus);
+    public ISL29034AmbientDriver(String bus) throws IOException {
+        mDevice = new ISL29034(bus);
     }
 
     /**
@@ -70,9 +70,9 @@ public class Adx345AccelerometerDriver implements AutoCloseable {
         }
     }
 
-    static UserSensor build(final Adx345 adx345) {
+    static UserSensor build(final ISL29034 isl29034) {
         return new UserSensor.Builder()
-                .setType(Sensor.TYPE_ACCELEROMETER)
+                .setType(Sensor.TYPE_LIGHT)
                 .setName(DRIVER_NAME)
                 .setVendor(DRIVER_VENDOR)
                 .setVersion(DRIVER_VERSION)
@@ -80,15 +80,17 @@ public class Adx345AccelerometerDriver implements AutoCloseable {
                 .setDriver(new UserSensorDriver() {
                     @Override
                     public UserSensorReading read() throws IOException {
-                        float[] sample = adx345.readSample();
-                        return new UserSensorReading(sample);
+                        float lux = isl29034.readLux();
+                        float data[] = {lux};
+                        return new UserSensorReading(data);
                     }
 
                     @Override
                     public void setEnabled(boolean enabled) throws IOException {
                         if (enabled) {
-                            adx345.setConfigure();
-                            adx345.powerOn();
+                            isl29034.setOperation(isl29034.ISL29034_OP_ALS_CONT);
+                            isl29034.setRange(isl29034.ISL29034_FS_3);
+                            isl29034.setResolution(isl29034.ISL29034_RES_16);
                         } else {
                             // ToDo
                         }
