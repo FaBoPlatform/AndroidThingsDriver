@@ -95,8 +95,10 @@ public class Si1132UVDriver implements AutoCloseable {
                         if (enabled) {
                             si1132.reset();
                             si1132.configuration();
+                            si1132.start();
                         } else {
-                            // ToDo
+                            si1132.setMeasRate(0);
+                            si1132.pause();
                         }
                     }
                 })
