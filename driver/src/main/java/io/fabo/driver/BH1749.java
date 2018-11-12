@@ -1,7 +1,6 @@
 package io.fabo.driver;
 
 import android.support.annotation.IntDef;
-import android.util.Log;
 
 import com.google.android.things.pio.I2cDevice;
 import com.google.android.things.pio.PeripheralManager;
@@ -279,7 +278,7 @@ public class BH1749 implements AutoCloseable {
     public boolean getMeasurementEnable() {
 
         try {
-            byte value = mDevice.readRegByte(REG_MODE_CONTROL1);
+            byte value = mDevice.readRegByte(REG_MODE_CONTROL2);
             if((value & RGB_EN_MASK) == RGB_EN_MASK) {
                 return true;
             } else {
