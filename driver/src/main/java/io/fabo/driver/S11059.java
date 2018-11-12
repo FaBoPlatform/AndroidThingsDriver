@@ -79,11 +79,8 @@ public class S11059 implements AutoCloseable {
         }
     }
 
-
     public void setControl() {
         try {
-            Log.i("TEST", "setControl");
-
             // Setting
             byte value = (byte) (mDevice.readRegByte(S11059_CONTROL) & 0xff);
             Log.i("TEST", "value=" + value);
@@ -98,7 +95,6 @@ public class S11059 implements AutoCloseable {
             e.printStackTrace();
         }
     }
-
 
     /**
      * Read an color sample.
@@ -121,7 +117,4 @@ public class S11059 implements AutoCloseable {
                 r, g, b, i
         };
     }
-
-
-
 }
