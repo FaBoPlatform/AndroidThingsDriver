@@ -1,6 +1,7 @@
 package io.fabo.driver;
 
 import android.hardware.Sensor;
+import android.util.Log;
 
 import com.google.android.things.userdriver.UserDriverManager;
 import com.google.android.things.userdriver.sensor.UserSensor;
@@ -13,7 +14,7 @@ import java.util.UUID;
 public class CCS811Co2Driver implements AutoCloseable {
 
     private static final String TAG = CCS811Co2Driver.class.getSimpleName();
-    private static final String DRIVER_NAME = "CCS811";
+    private static final String DRIVER_NAME = "FaBoCCS811";
     private static final String DRIVER_VENDOR = "GClue";
     private static final int DRIVER_VERSION = 1;
     private CCS811 mDevice;
@@ -88,15 +89,38 @@ public class CCS811Co2Driver implements AutoCloseable {
 
                     @Override
                     public void setEnabled(boolean enabled) throws IOException {
+
                         if (enabled) {
                             ccs811.reset();
-                            ccs811.start();
-                            ccs811.setDriveMode(CCS811.MEAS_DRIVE_MODE_1);
+                            delay(100);
+
+                            if(ccs811.whoAmI()) {
+                                ccs811.start();
+                                delay(100);
+
+                                if (ccs811.checkError()) {
+                                    Log.i(TAG, "error:" + ccs811.getErrorDetail(ccs811.getError()));
+                                }
+
+                                if (ccs811.checkStatus()) {
+                                    Log.i(TAG, "app is no valid");
+                                }
+
+                                ccs811.setDriveMode(CCS811.MEAS_DRIVE_MODE_1);
+                            }
                         } else {
-                            // ToDo
+                            ccs811.setDriveMode(CCS811.MEAS_DRIVE_MODE_0);
                         }
                     }
                 })
                 .build();
+    }
+
+    private static void delay(int time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

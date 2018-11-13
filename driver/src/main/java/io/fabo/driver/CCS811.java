@@ -14,7 +14,7 @@ public class CCS811 implements AutoCloseable {
     /**
      * I2C slave address of the CCS811.
      */
-    public static final int I2C_ADDRESS = 0x5B;
+    public static final byte I2C_ADDRESS = 0x5B;
 
     // Register.
     /** Status register. */
@@ -65,19 +65,26 @@ public class CCS811 implements AutoCloseable {
     private final int STATUS_NO_ERR = 0b00000000;
     private final int STATUS_ERR = 0b00000001;
 
+    // ERRROR
+    public final int ERR_WRITE_REG_INVALID = 1; // The CCS811 received an I²C write request addressed to this station but with invalid register address ID.
+    public final int ERR_READ_REG_INVALID = 1 << 1; // The CCS811 received an I²C read request to a mailbox ID that is invalid.
+    public final int ERR_MEASMODE_INVALID = 1 << 2; // The CCS811 received an I²C request to write an unsupported mode to MEAS_MODE.
+    public final int ERR_MAX_RESISTANCE = 1 << 3; // The sensor resistance measurement has reached or exceeded the maximum range.
+    public final int ERR_HEATER_FAULT = 1 << 4; // The Heater current in the CCS811 is not in range.
+    public final int ERR_HEATER_SUPPLY = 1 << 5; // The Heater voltage is not being applied correctly.
+
     /**
      * Meas mode.
      */
-    public final static int MEAS_DRIVE_MODE_0 = 0b00000000;   // Idle mode  (Measurements are disabled in this mode)
-    public final static int MEAS_DRIVE_MODE_1 = 0b00010000;   // Constant power mode  IAQ measurement every second
-    public final static int MEAS_DRIVE_MODE_2 = 0b00100000;   // Pulse heating mode  IAQ measurement every 10 seconds
-    public final static int MEAS_DRIVE_MODE_3 = 0b00110000;   // Low power pulse heating mode IAQ measurement every 60 seconds
-    public final static int MEAS_DRIVE_MODE_4 = 0b01000000;   // Constant power mode, sensor measurement every 250ms
+    public final static int MEAS_DRIVE_MODE_0 = 0b0000 << 4;   // Idle mode  (Measurements are disabled in this mode)
+    public final static int MEAS_DRIVE_MODE_1 = 0b0001 << 4;   // Constant power mode  IAQ measurement every second
+    public final static int MEAS_DRIVE_MODE_2 = 0b0010 << 4;   // Pulse heating mode  IAQ measurement every 10 seconds
+    public final static int MEAS_DRIVE_MODE_3 = 0b0011 << 4;   // Low power pulse heating mode IAQ measurement every 60 seconds
+    public final static int MEAS_DRIVE_MODE_4 = 0b0100 << 4;   // Constant power mode, sensor measurement every 250ms
     @IntDef({MEAS_DRIVE_MODE_0, MEAS_DRIVE_MODE_1, MEAS_DRIVE_MODE_2, MEAS_DRIVE_MODE_3, MEAS_DRIVE_MODE_4})
     public @interface MeasMode {}
 
     private final int MEAS_DRIVE_MODE_MASK = 0b01110000;
-
 
     private I2cDevice mDevice;
 
@@ -154,7 +161,6 @@ public class CCS811 implements AutoCloseable {
         try {
             byte reset_cmd[] = {(byte)0x11, (byte)0xE5, (byte)0x72, (byte)0x8A};
             mDevice.writeRegBuffer(REG_SW_RESET, reset_cmd, reset_cmd.length);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -165,8 +171,7 @@ public class CCS811 implements AutoCloseable {
      */
     public void start() {
         try {
-            // Only write address.
-            mDevice.writeRegBuffer(REG_APP_START, new byte[]{0}, 0);
+            mDevice.write(new byte[]{(byte) REG_APP_START}, 1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -178,9 +183,11 @@ public class CCS811 implements AutoCloseable {
      */
     public void setDriveMode(@MeasMode int mode) {
         try {
-            byte status = mDevice.readRegByte(REG_MEAS_MODE);
-            status = (byte)((status & ~MEAS_DRIVE_MODE_MASK) | mode);
-            mDevice.writeRegByte(REG_MEAS_MODE, status);
+            byte nowMode = mDevice.readRegByte(REG_MEAS_MODE);
+            nowMode = (byte)((nowMode & ~MEAS_DRIVE_MODE_MASK) | mode);
+            mDevice.writeRegByte(REG_MEAS_MODE, nowMode);
+            byte newOne = mDevice.readRegByte(REG_MEAS_MODE);
+            Log.i(TAG, "nowModeFinal=" + newOne);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -205,6 +212,20 @@ public class CCS811 implements AutoCloseable {
      * Check status
      * @return status.
      */
+    public byte getStatus() {
+        try {
+            byte status = mDevice.readRegByte(REG_STATUS);
+            return status;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    /**
+     * Check status
+     * @return status.
+     */
     public boolean checkStatus() {
         try {
             byte status = mDevice.readRegByte(REG_STATUS);
@@ -217,6 +238,81 @@ public class CCS811 implements AutoCloseable {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * Check Error
+     * @return error.
+     */
+    public boolean checkError() {
+        try {
+            byte status = mDevice.readRegByte(REG_STATUS);
+            if ((status & STATUS_ERR) == STATUS_ERR) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Get error.
+     * @return error..
+     */
+    public int getError() {
+        try {
+            byte error = mDevice.readRegByte(REG_ERROR_ID);
+            if ((error & ERR_WRITE_REG_INVALID) == ERR_WRITE_REG_INVALID) {
+                return ERR_WRITE_REG_INVALID;
+            } else if ((error & ERR_READ_REG_INVALID) == ERR_READ_REG_INVALID) {
+                return ERR_READ_REG_INVALID;
+            } else if ((error & ERR_MEASMODE_INVALID) == ERR_MEASMODE_INVALID) {
+                return ERR_MEASMODE_INVALID;
+            } else if ((error & ERR_MAX_RESISTANCE) == ERR_MAX_RESISTANCE) {
+                return ERR_MAX_RESISTANCE;
+            } else if ((error & ERR_HEATER_FAULT) == ERR_HEATER_FAULT) {
+                return ERR_HEATER_FAULT;
+            } else if ((error & ERR_HEATER_SUPPLY) == ERR_HEATER_SUPPLY) {
+                return ERR_HEATER_SUPPLY;
+            } else {
+                return 0;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    /**
+     * Get error detail
+     * @return detail
+     */
+    public String getErrorDetail(int err) {
+        String errDetail = "";
+        switch(err) {
+            case ERR_WRITE_REG_INVALID:
+                errDetail = "The CCS811 received an I²C write request addressed to this station but with invalid register address ID.";
+                break;
+            case ERR_READ_REG_INVALID:
+                errDetail = "The CCS811 received an I²C read request to a mailbox ID that is invalid.";
+                break;
+            case ERR_MEASMODE_INVALID:
+                errDetail = "The CCS811 received an I²C request to write an unsupported mode to MEAS_MODE.";
+                break;
+            case ERR_MAX_RESISTANCE:
+                errDetail = "The sensor resistance measurement has reached or exceeded the maximum range.";
+                break;
+            case ERR_HEATER_FAULT:
+                errDetail = "The Heater current in the CCS811 is not in range.";
+                break;
+            case ERR_HEATER_SUPPLY:
+                errDetail = "The Heater voltage is not being applied correctly.";
+                break;
+        }
+        return errDetail;
     }
 
     /**
@@ -248,8 +344,8 @@ public class CCS811 implements AutoCloseable {
         }
         byte alg_buff[] = new byte[4];
         mDevice.readRegBuffer(REG_ALG_RESULT_DATA, alg_buff, alg_buff.length);
-        int co2Value = (alg_buff[0]<< 8) | alg_buff[1];
-        int vocValue = (alg_buff[2]<< 8) | alg_buff[3];
+        int co2Value = ((alg_buff[0] & 0xff)<< 8) | alg_buff[1] & 0xff;
+        int vocValue = ((alg_buff[2] & 0xff) << 8) | alg_buff[3] & 0xff;
         return new float[]{
                 co2Value, vocValue
         };
