@@ -16,10 +16,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="47ce142c-34f6-4f4e-8bfd-9155b8d5a735" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/ADC121.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/ADC121AnalogDriver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CDM7160.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CDM7160Co2Driver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/resourceHashesCache.bin" afterDir="false" />
@@ -32,9 +28,8 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/io/fabo/faboexample/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/io/fabo/faboexample/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CCS811.java" beforeDir="false" afterPath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CCS811.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CCS811Co2Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CCS811Co2Driver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CDM7160.java" beforeDir="false" afterPath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CDM7160.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CDM7160Co2Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CDM7160Co2Driver.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -114,7 +109,7 @@
       <file leaf-file-name="CDM7160.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CDM7160.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
+            <state relative-caret-position="240">
               <caret line="16" column="46" selection-start-line="16" selection-start-column="46" selection-end-line="16" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -126,7 +121,7 @@
       <file leaf-file-name="CDM7160Co2Driver.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CDM7160Co2Driver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="331">
+            <state relative-caret-position="316">
               <caret line="95" selection-start-line="95" selection-end-line="95" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -3933,11 +3928,11 @@
       <window_info anchor="bottom" id="Run" order="2" weight="0.32936978" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Terminal" weight="0.32936978" />
-      <window_info anchor="bottom" id="Logcat" visible="true" weight="0.3137033" />
+      <window_info active="true" anchor="bottom" id="Logcat" visible="true" weight="0.3137033" />
       <window_info id="Captures" order="2" sideWeight="0.49822694" weight="0.2498386" />
       <window_info id="Capture Tool" />
       <window_info id="Designer" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.48514852" visible="true" weight="0.23626374" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.48514852" visible="true" weight="0.23626374" />
       <window_info anchor="bottom" id="Build" weight="0.32936978" />
       <window_info anchor="right" id="Gradle" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -4224,7 +4219,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CDM7160Co2Driver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
+        <state relative-caret-position="316">
           <caret line="95" selection-start-line="95" selection-end-line="95" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -4234,7 +4229,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CDM7160.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
+        <state relative-caret-position="240">
           <caret line="16" column="46" selection-start-line="16" selection-start-column="46" selection-end-line="16" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
