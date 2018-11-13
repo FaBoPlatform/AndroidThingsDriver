@@ -11,8 +11,11 @@ import android.util.Log;
 
 import java.io.IOException;
 
+import io.fabo.driver.ADC121AnalogDriver;
 import io.fabo.driver.Adx345AccelerometerDriver;
 import io.fabo.driver.BH1749ColorDriver;
+import io.fabo.driver.CCS811Co2Driver;
+import io.fabo.driver.CDM7160Co2Driver;
 import io.fabo.driver.ISL29034AmbientDriver;
 import io.fabo.driver.S11059ColorDriver;
 import io.fabo.driver.Si1132UVDriver;
@@ -23,11 +26,18 @@ public class MainActivity extends Activity implements SensorEventListener {
     private S11059ColorDriver mS11059ColorDriver;
     private Si1132UVDriver mSi1132UVDriver;
     private BH1749ColorDriver mBH1749ColorDriver;
-    private boolean ISL29034Enable = false;
+    private CCS811Co2Driver mCCS811Co2Driver;
+    private ADC121AnalogDriver mADC121AnalogDriver;
+    private CDM7160Co2Driver mCDM7160Co2Driver;
+
     private boolean Adx345Enable = false;
     private boolean S11059Enable = false;
-    private boolean Si1132Enable = true;
     private boolean BH1749Enable = false;
+    private boolean CCS811Enable = false;
+    private boolean ADC121Enable = false;
+    private boolean ISL29034Enable = false;
+    private boolean Si1132Enable = false;
+    private boolean CDM7160Enable = true;
 
     private SensorManager mSensorManager;
     //private static final String TAG = MainActivity.class.getSimpleName();
@@ -56,6 +66,18 @@ public class MainActivity extends Activity implements SensorEventListener {
                                 SensorManager.SENSOR_DELAY_NORMAL);
                     } else if(sensor.getName().startsWith("FaBoBH1749")) {
                         Log.i(TAG, "FaBoBH1749 connected");
+                        mSensorManager.registerListener(MainActivity.this, sensor,
+                                SensorManager.SENSOR_DELAY_NORMAL);
+                    } else if(sensor.getName().startsWith("FaBoCCS811")) {
+                        Log.i(TAG, "FaBoCCS811 connected");
+                        mSensorManager.registerListener(MainActivity.this, sensor,
+                                SensorManager.SENSOR_DELAY_NORMAL);
+                    } else if(sensor.getName().startsWith("FaBoADC121")) {
+                        Log.i(TAG, "FaBoADC1211 connected");
+                        mSensorManager.registerListener(MainActivity.this, sensor,
+                                SensorManager.SENSOR_DELAY_NORMAL);
+                    } else if(sensor.getName().startsWith("FaBoCDM7160")) {
+                        Log.i(TAG, "FaBoCDM7160 connected");
                         mSensorManager.registerListener(MainActivity.this, sensor,
                                 SensorManager.SENSOR_DELAY_NORMAL);
                     }
@@ -105,6 +127,33 @@ public class MainActivity extends Activity implements SensorEventListener {
                 mBH1749ColorDriver = new BH1749ColorDriver(BoardDefaults.getI2CPort());
                 mBH1749ColorDriver.register();
                 Log.i(TAG, "mBH1749ColorDriver driver registered");
+            } catch (IOException e) {
+                Log.e(TAG, "Error initializing accelerometer driver: ", e);
+            }
+        }
+        if(CCS811Enable) {
+            try {
+                mCCS811Co2Driver = new CCS811Co2Driver(BoardDefaults.getI2CPort());
+                mCCS811Co2Driver.register();
+                Log.i(TAG, "mCCS811Co2Driver driver registered");
+            } catch (IOException e) {
+                Log.e(TAG, "Error initializing accelerometer driver: ", e);
+            }
+        }
+        if(ADC121Enable) {
+            try {
+                mADC121AnalogDriver = new ADC121AnalogDriver(BoardDefaults.getI2CPort());
+                mADC121AnalogDriver.register();
+                Log.i(TAG, "mADC121AnalogDriver driver registered");
+            } catch (IOException e) {
+                Log.e(TAG, "Error initializing accelerometer driver: ", e);
+            }
+        }
+        if(CDM7160Enable) {
+            try {
+                mCDM7160Co2Driver = new CDM7160Co2Driver(BoardDefaults.getI2CPort());
+                mCDM7160Co2Driver.register();
+                Log.i(TAG, "mCDM7160Co2Driver driver registered");
             } catch (IOException e) {
                 Log.e(TAG, "Error initializing accelerometer driver: ", e);
             }
@@ -159,6 +208,39 @@ public class MainActivity extends Activity implements SensorEventListener {
                 mBH1749ColorDriver = null;
             }
         }
+        if (mCCS811Co2Driver != null) {
+            mSensorManager.unregisterListener(this);
+            mCCS811Co2Driver.unregister();
+            try {
+                mCCS811Co2Driver.close();
+            } catch (IOException e) {
+                Log.e(TAG, "Error closing driver: ", e);
+            } finally {
+                mCCS811Co2Driver = null;
+            }
+        }
+        if (mADC121AnalogDriver != null) {
+            mSensorManager.unregisterListener(this);
+            mADC121AnalogDriver.unregister();
+            try {
+                mADC121AnalogDriver.close();
+            } catch (IOException e) {
+                Log.e(TAG, "Error closing driver: ", e);
+            } finally {
+                mADC121AnalogDriver = null;
+            }
+        }
+        if (mCDM7160Co2Driver != null) {
+            mSensorManager.unregisterListener(this);
+            mCDM7160Co2Driver.unregister();
+            try {
+                mCDM7160Co2Driver.close();
+            } catch (IOException e) {
+                Log.e(TAG, "Error closing driver: ", e);
+            } finally {
+                mCDM7160Co2Driver = null;
+            }
+        }
     }
 
     @Override
@@ -169,16 +251,16 @@ public class MainActivity extends Activity implements SensorEventListener {
                     event.values[0] + ", " + event.values[1] + ", " + event.values[2]);
         } else if(event.sensor.getName().startsWith("FaBoISL29034")) {
             Log.i(TAG, "FaBoISL29034");
-            Log.i(TAG, "Ambient: " + event.values[0]);
+            Log.i(TAG, "Ambient: " + event.values[0] + "(lux)");
         } else if(event.sensor.getName().startsWith("FaBoS11059")) {
             Log.i(TAG, "FaBoS11059");
             Log.i(TAG, "Color event: " + event.values[0] + ", " + event.values[1] + ", "
                     + event.values[2] + ", " + event.values[3]);
         } else if(event.sensor.getName().startsWith("FaBoSi1132")) {
             Log.i(TAG, "FaBoSi1132");
-            Log.i(TAG, "Uv: " + event.values[0] +
-                    ",IR: " + event.values[1] +
-                    ",Visible: " + event.values[2]);
+            Log.i(TAG, "UV Index(0-11): " + event.values[0] +
+                    ",IR: " + event.values[1] + "(count)" +
+                    ",Visible: " + event.values[2] +"(lux)");
         } else if(event.sensor.getName().startsWith("FaBoBH1749")) {
             int minRGBValues[] = {53, 128, 37};
             int maxRGBValues[] = {206, 408, 213};
@@ -186,11 +268,22 @@ public class MainActivity extends Activity implements SensorEventListener {
             int green = convertRaw2RGB(event.values[1], minRGBValues[1], maxRGBValues[1],0, 255);
             int blue = convertRaw2RGB(event.values[2], minRGBValues[2], maxRGBValues[2],0, 255);
             Log.i(TAG, "FaBoBH1749");
-            Log.i(TAG, "Red:" + red +
-                        ", Green:" + green +
-                        ", Blue:"  + blue +
-                        ", IR:" + event.values[3] +
-                        ", Green2:" + event.values[4]);
+            Log.i(TAG, "Red(0-255):" + red +
+                        ", Green(0-255):" + green +
+                        ", Blue(0-255):"  + blue +
+                        ", IR(0-):" + event.values[3] + "(lux?)" +
+                        ", Green2(0-):" + event.values[4] + "(lux?)");
+        } else if(event.sensor.getName().startsWith("FaBoCCS811")) {
+            Log.i(TAG, "FaBoCCS811");
+            Log.i(TAG, "CO2(400-8192):" + event.values[0] + "(ppm) " +
+                            "TVOC(0-1187):" + event.values[1] + "(ppb)");
+        } else if(event.sensor.getName().startsWith("FaBoADC121")) {
+            float ppm = (float) ((1.99 * event.values[0]) / 4095.0 + 0.01);
+            Log.i(TAG, "FaBoADC121");
+            Log.i(TAG, "ppm(0.01ppm-2ppm):" + ppm + "(ppm)");
+        } else if(event.sensor.getName().startsWith("FaBoCDM7160")) {
+            Log.i(TAG, "FaBoCDM7160");
+            Log.i(TAG, "ppm(0.01ppm-2ppm):" + event.values[0] + "(ppm)");
         }
     }
 
