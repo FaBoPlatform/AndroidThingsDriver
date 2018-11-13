@@ -93,6 +93,7 @@ public class CDM7160Co2Driver implements AutoCloseable {
                     @Override
                     public void setEnabled(boolean enabled) throws IOException {
                         if (enabled) {
+                            cdm7160.reset();
                             cdm7160.setControl(CDM7160.MODE_CONTINUS);
                         } else {
                             cdm7160.setControl(CDM7160.MODE_POWER_DOWN);

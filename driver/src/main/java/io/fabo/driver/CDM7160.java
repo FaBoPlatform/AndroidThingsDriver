@@ -18,7 +18,7 @@ public class CDM7160 implements AutoCloseable {
 
     // Register.
     /** Resets the module.. */
-    private final int REG_SOFT_RESET = 0x00;
+    private final int REG_RESET = 0x00;
     /** Sets the operation mode. */
     private final int REG_CONTROL = 0x01;
     /** Monitors the operation state. Read-only. */
@@ -61,13 +61,13 @@ public class CDM7160 implements AutoCloseable {
     private I2cDevice mDevice;
 
     /**
-     * Create a new ADC121 driver connected to the given I2C bus.
+     * Create a new CDM7160 driver connected to the given I2C bus.
      * @param bus
      * @throws IOException
      */
     public CDM7160(String bus) throws IOException {
         PeripheralManager pioService = PeripheralManager.getInstance();
-        I2cDevice device = pioService.openI2cDevice(bus, I2C_ADDRESS);
+        I2cDevice device = pioService.openI2cDevice(bus, (byte)I2C_ADDRESS);
         try {
             connect(device);
         } catch (IOException|RuntimeException e) {
@@ -95,7 +95,6 @@ public class CDM7160 implements AutoCloseable {
         mDevice = device;
     }
 
-
     /**
      * Close the driver and the underlying device.
      */
@@ -120,6 +119,7 @@ public class CDM7160 implements AutoCloseable {
             Log.i("TEST3", "controlMode"+controlMode);
             mDevice.writeRegByte(REG_CONTROL, (byte)controlMode);
         } catch (IOException e) {
+            Log.i("TEST3", "Error" + e);
             e.printStackTrace();
         }
     }
@@ -145,6 +145,17 @@ public class CDM7160 implements AutoCloseable {
             return true;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * Reset
+     */
+    public void reset() {
+        try {
+            mDevice.writeRegByte(REG_RESET, (byte)1);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
