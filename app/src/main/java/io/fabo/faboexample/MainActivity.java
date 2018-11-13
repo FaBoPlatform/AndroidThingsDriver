@@ -18,6 +18,7 @@ import io.fabo.driver.CCS811Co2Driver;
 import io.fabo.driver.CDM7160Co2Driver;
 import io.fabo.driver.ISL29034AmbientDriver;
 import io.fabo.driver.S11059ColorDriver;
+import io.fabo.driver.SPS30PMDriver;
 import io.fabo.driver.Si1132UVDriver;
 
 public class MainActivity extends Activity implements SensorEventListener {
@@ -29,6 +30,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     private CCS811Co2Driver mCCS811Co2Driver;
     private ADC121AnalogDriver mADC121AnalogDriver;
     private CDM7160Co2Driver mCDM7160Co2Driver;
+    private SPS30PMDriver mSPS30PMDriver;
 
     private boolean Adx345Enable = false;
     private boolean S11059Enable = false;
@@ -38,6 +40,8 @@ public class MainActivity extends Activity implements SensorEventListener {
     private boolean ISL29034Enable = false;
     private boolean Si1132Enable = false;
     private boolean CDM7160Enable = true;
+    private boolean SPS30Enable = true;
+
 
     private SensorManager mSensorManager;
     //private static final String TAG = MainActivity.class.getSimpleName();
@@ -56,29 +60,15 @@ public class MainActivity extends Activity implements SensorEventListener {
                 Log.i(TAG, "[SYS] sensor.getType():" + sensor.getType());
                 Log.i(TAG, "[SYS] sensor.getName():" + sensor.getName());
                 if (sensor.getType() == Sensor.TYPE_DEVICE_PRIVATE_BASE) {
-                    if(sensor.getName().startsWith("FaBoS11059")) {
-                        Log.i(TAG, "FaBoS11059 connected");
-                        mSensorManager.registerListener(MainActivity.this, sensor,
-                                SensorManager.SENSOR_DELAY_NORMAL);
-                    } else if(sensor.getName().startsWith("FaBoSi1132")) {
-                        Log.i(TAG, "FaBoSi1132 connected");
-                        mSensorManager.registerListener(MainActivity.this, sensor,
-                                SensorManager.SENSOR_DELAY_NORMAL);
-                    } else if(sensor.getName().startsWith("FaBoBH1749")) {
-                        Log.i(TAG, "FaBoBH1749 connected");
-                        mSensorManager.registerListener(MainActivity.this, sensor,
-                                SensorManager.SENSOR_DELAY_NORMAL);
-                    } else if(sensor.getName().startsWith("FaBoCCS811")) {
-                        Log.i(TAG, "FaBoCCS811 connected");
-                        mSensorManager.registerListener(MainActivity.this, sensor,
-                                SensorManager.SENSOR_DELAY_NORMAL);
-                    } else if(sensor.getName().startsWith("FaBoADC121")) {
-                        Log.i(TAG, "FaBoADC1211 connected");
-                        mSensorManager.registerListener(MainActivity.this, sensor,
-                                SensorManager.SENSOR_DELAY_NORMAL);
-                    } else if(sensor.getName().startsWith("FaBoCDM7160")) {
-                        Log.i(TAG, "FaBoCDM7160 connected");
-                        mSensorManager.registerListener(MainActivity.this, sensor,
+                    if(sensor.getName().startsWith("FaBoS11059") ||
+                            sensor.getName().startsWith("FaBoSi1132") ||
+                            sensor.getName().startsWith("FaBoBH1749") ||
+                            sensor.getName().startsWith("FaBoCCS811") ||
+                            sensor.getName().startsWith("FaBoADC121") ||
+                            sensor.getName().startsWith("FaBoCDM7160") ||
+                            sensor.getName().startsWith("FaBoSPS30")) {
+                            Log.i(TAG, sensor.getName() + " connected!");
+                            mSensorManager.registerListener(MainActivity.this, sensor,
                                 SensorManager.SENSOR_DELAY_NORMAL);
                     }
                 } else if (sensor.getType() == Sensor.TYPE_LIGHT) {
@@ -154,6 +144,15 @@ public class MainActivity extends Activity implements SensorEventListener {
                 mCDM7160Co2Driver = new CDM7160Co2Driver(BoardDefaults.getI2CPort());
                 mCDM7160Co2Driver.register();
                 Log.i(TAG, "mCDM7160Co2Driver driver registered");
+            } catch (IOException e) {
+                Log.e(TAG, "Error initializing accelerometer driver: ", e);
+            }
+        }
+        if(SPS30Enable) {
+            try {
+                mSPS30PMDriver = new SPS30PMDriver(BoardDefaults.getI2CPort());
+                mSPS30PMDriver.register();
+                Log.i(TAG, "mSPS30PMDriver driver registered");
             } catch (IOException e) {
                 Log.e(TAG, "Error initializing accelerometer driver: ", e);
             }
@@ -241,6 +240,17 @@ public class MainActivity extends Activity implements SensorEventListener {
                 mCDM7160Co2Driver = null;
             }
         }
+        if (mSPS30PMDriver != null) {
+            mSensorManager.unregisterListener(this);
+            mSPS30PMDriver.unregister();
+            try {
+                mSPS30PMDriver.close();
+            } catch (IOException e) {
+                Log.e(TAG, "Error closing driver: ", e);
+            } finally {
+                mSPS30PMDriver = null;
+            }
+        }
     }
 
     @Override
@@ -284,6 +294,12 @@ public class MainActivity extends Activity implements SensorEventListener {
         } else if(event.sensor.getName().startsWith("FaBoCDM7160")) {
             Log.i(TAG, "FaBoCDM7160");
             Log.i(TAG, "ppm(0.01ppm-2ppm):" + event.values[0] + "(ppm)");
+        } else if(event.sensor.getName().startsWith("FaBoSPS30")) {
+            Log.i(TAG, "FaBoSPS300");
+            Log.i(TAG, "pm1.0:" + event.values[0] + "μg/m3");
+            Log.i(TAG, "pm2.5:" + event.values[1] + "μg/m3");
+            Log.i(TAG, "pm5:" + event.values[2] + "μg/m3");
+            Log.i(TAG, "pm10:" + event.values[3] + "μg/m53");
         }
     }
 
