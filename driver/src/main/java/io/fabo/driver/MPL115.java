@@ -1,11 +1,14 @@
 package io.fabo.driver;
 
 import android.support.annotation.IntDef;
+import android.util.Log;
 
 import com.google.android.things.pio.I2cDevice;
 import com.google.android.things.pio.PeripheralManager;
 
 import java.io.IOException;
+
+import static java.lang.Math.pow;
 
 public class MPL115 implements AutoCloseable {
     private static final String TAG = MPL115.class.getSimpleName();
@@ -106,12 +109,15 @@ public class MPL115 implements AutoCloseable {
      */
     public void readCoef() {
         try {
+            Log.i(TAG, "readCoef()");
             byte data_buff[] = new byte[8];
             mDevice.readRegBuffer(REG_A0_MSB, data_buff, data_buff.length);
             mA0  = ((float) ((data_buff[0] << 8) + data_buff[1]) / ((long)1 << 3));
             mB1  = ((float) ((data_buff[2] << 8) + data_buff[3]) / ((long)1 << 13));
             mB2  = ((float) ((data_buff[4] << 8) + data_buff[5]) / ((long)1 << 14));
             mC12 = ((float) ((data_buff[6] << 8) + data_buff[7]) / ((long)1 << 24));
+            Log.i(TAG, "mA0=" + mA0);
+            Log.i(TAG, "mB1=" + mB1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -140,6 +146,16 @@ public class MPL115 implements AutoCloseable {
         float temp = (float) (25.0 - ((float) tadc - 512.0) / 5.35);
 
         return new float[]{hpa, temp};
+    }
+
+    /**
+     *  Get hpa from altitude.
+     * @param hpa
+     * @param altitude
+     * @return
+     */
+    public static float hpaFromAltitude(float hpa, float altitude) {
+        return (float)(hpa / pow(1.0 - (altitude/44330.0), 5.255));
     }
 
 }

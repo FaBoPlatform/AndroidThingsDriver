@@ -14,7 +14,7 @@ public class CDM7160 implements AutoCloseable {
     /**
      * I2C slave address of the CDM7160.
      */
-    public static final int I2C_ADDRESS = 0x68;
+    public static final int I2C_ADDRESS = 0x69;
 
     // Register.
     /** Resets the module.. */

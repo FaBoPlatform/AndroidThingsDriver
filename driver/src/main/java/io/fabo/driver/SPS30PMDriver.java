@@ -1,6 +1,7 @@
 package io.fabo.driver;
 
 import android.hardware.Sensor;
+import android.util.Log;
 
 import com.google.android.things.userdriver.UserDriverManager;
 import com.google.android.things.userdriver.sensor.UserSensor;
@@ -82,6 +83,7 @@ public class SPS30PMDriver implements AutoCloseable {
                 .setDriver(new UserSensorDriver() {
                     @Override
                     public UserSensorReading read() throws IOException {
+                        Log.i("TEST", "" + sps30.checkReady());
                         if(sps30.checkReady()) {
                             float data[] = sps30.readData();
                             return new UserSensorReading(data);

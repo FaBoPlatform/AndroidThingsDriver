@@ -1,6 +1,7 @@
 package io.fabo.driver;
 
 import android.support.annotation.IntDef;
+import android.util.Log;
 
 import com.google.android.things.pio.I2cDevice;
 import com.google.android.things.pio.PeripheralManager;
@@ -118,6 +119,7 @@ public class SPS30 implements AutoCloseable {
      * Start.
      */
     public void start() {
+        Log.i("TEST", "start");
         byte command[] = {0x03,0x00};
         byte checkSum = checkSum(command);
         byte data[] = new byte[3];
@@ -136,6 +138,8 @@ public class SPS30 implements AutoCloseable {
      * Stop.
      */
     public void stop() {
+        Log.i("TEST", "stop");
+
         try {
             mDevice.write(new byte[]{(byte) REG_STOP}, 1);
         } catch (IOException e) {
@@ -147,6 +151,8 @@ public class SPS30 implements AutoCloseable {
      * Reset.
      */
     public void reset() {
+        Log.i("TEST", "reset");
+
         try {
             mDevice.write(new byte[]{(byte) REG_RESET}, 1);
         } catch (IOException e) {

@@ -72,7 +72,9 @@ public class MPL115BarometerDriver implements AutoCloseable {
 
     static UserSensor build(final MPL115 mpl115) {
         return new UserSensor.Builder()
-                .setType(Sensor.TYPE_LIGHT)
+                .setCustomType(Sensor.TYPE_DEVICE_PRIVATE_BASE,
+                        "fabo.io.barometer",
+                        Sensor.REPORTING_MODE_CONTINUOUS)
                 .setName(DRIVER_NAME)
                 .setVendor(DRIVER_VENDOR)
                 .setVersion(DRIVER_VERSION)
