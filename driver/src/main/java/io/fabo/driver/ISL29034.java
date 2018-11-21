@@ -1,6 +1,7 @@
 package io.fabo.driver;
 
 import android.support.annotation.IntDef;
+import android.util.Log;
 
 import com.google.android.things.pio.I2cDevice;
 import com.google.android.things.pio.PeripheralManager;
@@ -49,10 +50,10 @@ public class ISL29034 implements AutoCloseable {
     /**
      * ADC RESOLUTION.
      */
-    public final static int RES_16 = 0b00<<2; //< 16bit(Default)
-    public final static int RES_12 = 0b01<<2; //< 12bit
-    public final static int RES_8 = 0b10<<2; //< 8bit
-    public final static int  RES_4 = 0b11<<2; //< 4bit
+    public final static int RES_16 = 0b00; //< 16bit(Default)
+    public final static int RES_12 = 0b01; //< 12bit
+    public final static int RES_8 = 0b10; //< 8bit
+    public final static int  RES_4 = 0b11; //< 4bit
     @IntDef({RES_16, RES_12, RES_8, RES_4})
     public @interface adcResolution {}
 
@@ -124,6 +125,7 @@ public class ISL29034 implements AutoCloseable {
     public boolean whoAmI() {
         try {
             byte value = mDevice.readRegByte(REG_ID);
+
             if((value & OFFSET_DEVICE_ID) == DEVICE_ID) {
                 return true;
             } else {
@@ -170,7 +172,7 @@ public class ISL29034 implements AutoCloseable {
         mResolution = resolution;
         try {
             byte data = mDevice.readRegByte(REG_CMD2);
-            data &= OFFSET_RES;
+            data &= OFFSET_RES<<2;
             data |= resolution;
             mDevice.writeRegByte(REG_CMD2, data);
         } catch (IOException e) {
@@ -185,32 +187,43 @@ public class ISL29034 implements AutoCloseable {
      */
     private int readADC() {
         byte data[] = new byte[2];
-        int adc = 0;
         try {
             switch (mResolution) {
                 case RES_16:
                     Thread.sleep(105);
-                    adc = (int)(data[1]&OFFSET_BIT_8)<<8 | (int)(data[0]&OFFSET_BIT_8);
                     break;
                 case RES_12:
                     Thread.sleep(6);
-                    adc = (int)(data[1]&OFFSET_BIT_4)<<8 | (int)(data[0]&OFFSET_BIT_8);
                     break;
                 case RES_8:
                     Thread.sleep(0,352);
-                    adc = (int)(data[0]&OFFSET_BIT_8);
                     break;
                 case RES_4:
                     Thread.sleep(0,22);
-                    adc = (int)(data[0]&OFFSET_BIT_4);
                     break;
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        int adc = 0;
         try {
             mDevice.readRegBuffer(REG_DATA_L, data, 2);
-        } catch (IOException e) {
+            switch (mResolution) {
+                case RES_16:
+                    adc = (int)(data[1]&0xff)<<8 | (int)(data[0]&0xff);
+                    break;
+                case RES_12:
+                    adc = (int)(data[1]&0x0f)<<8 | (int)(data[0]&0xff);
+                    break;
+                case RES_8:
+                    adc = (int)(data[0]&0xff);
+                    break;
+                case RES_4:
+                    adc = (int)(data[0]&0x0f);
+                    break;
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -243,19 +256,18 @@ public class ISL29034 implements AutoCloseable {
 
         switch (mResolution) {
             case RES_16:
-                count = 2^16;
+                count = (int) Math.pow(2,16);
                 break;
             case RES_12:
-                count = 2^12;
+                count = (int) Math.pow(2,12);
                 break;
             case RES_8:
-                count = 2^8;
+                count = (int) Math.pow(2,8);
                 break;
             case RES_4:
-                count = 2^4;
+                count = (int) Math.pow(2,4);
                 break;
         }
-
         return ((float)range / (float)count) * (float)adc;
     }
 
