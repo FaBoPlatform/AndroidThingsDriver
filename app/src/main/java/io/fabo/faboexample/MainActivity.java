@@ -40,11 +40,11 @@ public class MainActivity extends Activity implements SensorEventListener {
     private boolean BH1749Enable = false;
     private boolean CCS811Enable = false;
     private boolean ADC121Enable = false;
-    private boolean ISL29034Enable = false;
+    private boolean ISL29034Enable = true;
     private boolean Si1132Enable = false;
     private boolean CDM7160Enable = false;
     private boolean SPS30Enable = false;
-    private boolean MPL115Enable = true;
+    private boolean MPL115Enable = false;
 
     private SensorManager mSensorManager;
     //private static final String TAG = MainActivity.class.getSimpleName();
@@ -120,7 +120,6 @@ public class MainActivity extends Activity implements SensorEventListener {
             try {
                 mBH1749ColorDriver = new BH1749ColorDriver(BoardDefaults.getI2CPort());
                 mBH1749ColorDriver.register();
-                Log.i(TAG, "mBH1749ColorDriver driver registered");
             } catch (IOException e) {
                 Log.e(TAG, "Error initializing accelerometer driver: ", e);
             }
@@ -129,7 +128,6 @@ public class MainActivity extends Activity implements SensorEventListener {
             try {
                 mCCS811Co2Driver = new CCS811Co2Driver(BoardDefaults.getI2CPort());
                 mCCS811Co2Driver.register();
-                Log.i(TAG, "mCCS811Co2Driver driver registered");
             } catch (IOException e) {
                 Log.e(TAG, "Error initializing accelerometer driver: ", e);
             }
@@ -138,7 +136,6 @@ public class MainActivity extends Activity implements SensorEventListener {
             try {
                 mADC121AnalogDriver = new ADC121AnalogDriver(BoardDefaults.getI2CPort());
                 mADC121AnalogDriver.register();
-                Log.i(TAG, "mADC121AnalogDriver driver registered");
             } catch (IOException e) {
                 Log.e(TAG, "Error initializing accelerometer driver: ", e);
             }
@@ -147,7 +144,6 @@ public class MainActivity extends Activity implements SensorEventListener {
             try {
                 mCDM7160Co2Driver = new CDM7160Co2Driver(BoardDefaults.getI2CPort());
                 mCDM7160Co2Driver.register();
-                Log.i(TAG, "mCDM7160Co2Driver driver registered");
             } catch (IOException e) {
                 Log.e(TAG, "Error initializing accelerometer driver: ", e);
             }
@@ -156,7 +152,6 @@ public class MainActivity extends Activity implements SensorEventListener {
             try {
                 mSPS30PMDriver = new SPS30PMDriver(BoardDefaults.getI2CPort());
                 mSPS30PMDriver.register();
-                Log.i(TAG, "mSPS30PMDriver driver registered");
             } catch (IOException e) {
                 Log.e(TAG, "Error initializing accelerometer driver: ", e);
             }
@@ -165,7 +160,6 @@ public class MainActivity extends Activity implements SensorEventListener {
             try {
                 mMPL115BarometerDriver = new MPL115BarometerDriver(BoardDefaults.getI2CPort());
                 mMPL115BarometerDriver.register();
-                Log.i(TAG, "MPL115BarometerDriver driver registered");
             } catch (IOException e) {
                 Log.e(TAG, "Error initializing accelerometer driver: ", e);
             }
