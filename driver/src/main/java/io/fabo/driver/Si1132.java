@@ -1,6 +1,7 @@
 package io.fabo.driver;
 
 import android.support.annotation.IntDef;
+import android.util.Log;
 
 import com.google.android.things.pio.I2cDevice;
 import com.google.android.things.pio.PeripheralManager;
@@ -383,7 +384,7 @@ public class Si1132 implements AutoCloseable {
      */
     public void setUVAdmux(@AuxMeas int auxMeas) {
         try {
-            mDevice.writeRegByte(REG_PARAM_WR, (byte)SI1132_ALS_IR_ADCMUX_SMALLIR);
+            mDevice.writeRegByte(REG_PARAM_WR, (byte)auxMeas);
             mDevice.writeRegByte(REG_COMMAND, (byte)(PARAM_SET | OFFSET_AUX_ADCMUX_PARAM));
         } catch (IOException e) {
             e.printStackTrace();
@@ -433,7 +434,7 @@ public class Si1132 implements AutoCloseable {
         configureUCONF();
         setChiplist();
         initialize();
-        setMeasRate(1);
+        setMeasRate(0xff);
         setMailboxRegister();
 
         // Visual.
@@ -448,7 +449,7 @@ public class Si1132 implements AutoCloseable {
         setIRAdmux();
 
         // UV
-        setUVAdmux(Si1132.AUX_ADCMUX_TEMPERATURE);
+        setUVAdmux(Si1132.AUX_ADCMUX_VDD);
     }
 
     /**
@@ -460,6 +461,7 @@ public class Si1132 implements AutoCloseable {
             throw new IllegalStateException("device not connected");
         }
         Short uv = mDevice.readRegWord(REG_AUX_DATA);
+        Log.i("AAA", "" + uv);
         return Short.toUnsignedInt(uv);
     }
 
@@ -467,25 +469,25 @@ public class Si1132 implements AutoCloseable {
      * Read Infrared
      * @return
      */
-    public int readIR() throws IOException, IllegalStateException {
+    public float readIR() throws IOException, IllegalStateException {
         if (mDevice == null) {
             throw new IllegalStateException("device not connected");
         }
 
         Short ir = mDevice.readRegWord(REG_IR_DATA);
-        return Short.toUnsignedInt(ir);
+        return (float) (((float)(Short.toUnsignedInt(ir) - 250)/2.44) * 14.5);
     }
 
     /**
      * Read Visible
      * @return
      */
-    public int readVisible() throws IOException, IllegalStateException {
+    public float readVisible() throws IOException, IllegalStateException {
         if (mDevice == null) {
             throw new IllegalStateException("device not connected");
         }
 
         Short visible = mDevice.readRegWord(REG_VISIBLE_DATA);
-        return Short.toUnsignedInt(visible);
+        return (float) (((float)(Short.toUnsignedInt(visible) -256)/0.282) * 14.5);
     }
 }
