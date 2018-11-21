@@ -16,7 +16,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="47ce142c-34f6-4f4e-8bfd-9155b8d5a735" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/driver/src/androidTest/java/io/fabo/driver/ISL29034Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/resourceHashesCache.bin" afterDir="false" />
@@ -32,8 +31,7 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/java/io/fabo/faboexample/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/io/fabo/faboexample/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/ISL29034.java" beforeDir="false" afterPath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/ISL29034.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/ISL29034AmbientDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/ISL29034AmbientDriver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/SPS30.java" beforeDir="false" afterPath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/SPS30.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/SPS30PMDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/SPS30PMDriver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/Si1132.java" beforeDir="false" afterPath="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/Si1132.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -59,23 +57,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/io/fabo/faboexample/MainActivity.java">
+      <file leaf-file-name="ADC121.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/ADC121.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="42" column="28" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="28" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="533">
+              <caret line="163" column="33" selection-start-line="163" selection-start-column="33" selection-end-line="163" selection-end-column="33" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CDM7160.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CDM7160.java">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/io/fabo/faboexample/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="115" column="56" selection-start-line="115" selection-start-column="26" selection-end-line="115" selection-end-column="56" />
+            <state relative-caret-position="309">
+              <caret line="41" column="40" selection-start-line="41" selection-start-column="40" selection-end-line="41" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -86,8 +81,8 @@
       <file leaf-file-name="ISL29034.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/ISL29034.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2235">
-              <caret line="168" column="29" selection-start-line="168" selection-start-column="16" selection-end-line="168" selection-end-column="29" />
+            <state relative-caret-position="524">
+              <caret line="210" column="34" selection-start-line="210" selection-end-line="211" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -95,11 +90,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Si1132UVDriver.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/Si1132UVDriver.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="236">
+              <caret line="90" column="21" selection-start-line="90" selection-start-column="21" selection-end-line="90" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="ISL29034AmbientDriver.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/ISL29034AmbientDriver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="284">
-              <caret line="91" column="68" selection-start-line="91" selection-start-column="68" selection-end-line="91" selection-end-column="68" />
+            <state relative-caret-position="314">
+              <caret line="93" column="72" selection-start-line="93" selection-start-column="72" selection-end-line="93" selection-end-column="72" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -110,38 +114,8 @@
       <file leaf-file-name="Si1132Test.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/driver/src/androidTest/java/io/fabo/driver/Si1132Test.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="389">
+            <state relative-caret-position="376">
               <caret line="116" column="72" selection-start-line="116" selection-start-column="72" selection-end-line="116" selection-end-column="72" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BH1749Test.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/driver/src/androidTest/java/io/fabo/driver/BH1749Test.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="61" column="37" selection-start-line="61" selection-end-line="62" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ISL29034Test.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/driver/src/androidTest/java/io/fabo/driver/ISL29034Test.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="451">
-              <caret line="79" column="78" selection-start-line="79" selection-start-column="78" selection-end-line="79" selection-end-column="78" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Si1132UVDriver.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/Si1132UVDriver.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="90" column="21" selection-start-line="90" selection-start-column="21" selection-end-line="90" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -149,12 +123,29 @@
       <file leaf-file-name="Si1132.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/Si1132.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6211">
-              <caret line="284" column="38" selection-start-line="284" selection-start-column="38" selection-end-line="284" selection-end-column="38" />
+            <state relative-caret-position="-774">
+              <caret line="49" column="23" selection-start-line="49" selection-start-column="23" selection-end-line="49" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#8893#9346#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ISL29034Test.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/driver/src/androidTest/java/io/fabo/driver/ISL29034Test.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="505">
+              <caret line="79" column="78" selection-start-line="79" selection-start-column="78" selection-end-line="79" selection-end-column="78" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CCS811.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CCS811.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1527">
+              <caret line="162" selection-start-line="162" selection-end-line="162" />
             </state>
           </provider>
         </entry>
@@ -162,7 +153,7 @@
       <file leaf-file-name="S11059.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/S11059.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="835">
+            <state relative-caret-position="103">
               <caret line="91" column="56" selection-start-line="91" selection-start-column="12" selection-end-line="91" selection-end-column="56" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -192,6 +183,7 @@
       <find>AUX</find>
       <find>AUX_ADC</find>
       <find>FaBoCDM7160</find>
+      <find>start</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -3527,7 +3519,6 @@
         <option value="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/BH1749ColorDriver.java" />
         <option value="$PROJECT_DIR$/driver/src/androidTest/java/io/fabo/driver/Si1132Test.java" />
         <option value="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/Si1132UVDriver.java" />
-        <option value="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/Si1132.java" />
         <option value="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/BH1749.java" />
         <option value="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/S11059.java" />
         <option value="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CC811Co2Driver.java" />
@@ -3546,10 +3537,11 @@
         <option value="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/MPL115.java" />
         <option value="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/SPS30.java" />
         <option value="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/SPS30PMDriver.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/io/fabo/faboexample/MainActivity.java" />
+        <option value="$PROJECT_DIR$/driver/src/androidTest/java/io/fabo/driver/ISL29034Test.java" />
         <option value="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/ISL29034AmbientDriver.java" />
         <option value="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/ISL29034.java" />
-        <option value="$PROJECT_DIR$/driver/src/androidTest/java/io/fabo/driver/ISL29034Test.java" />
+        <option value="$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/Si1132.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/io/fabo/faboexample/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -3648,7 +3640,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Android Instrumented Tests.ISL29034Test">
+  <component name="RunManager" selected="Android App.app">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -3957,15 +3949,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="DriverTest - 2018.11.12 at 10h 46m 57s.xml">
-      <configuration name="DriverTest" configurationId="AndroidTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="DriverTest - 2018.11.12 at 10h 47m 39s.xml">
-      <configuration name="DriverTest" configurationId="AndroidTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="Si1132Test - 2018.11.12 at 10h 47m 45s.xml">
-      <configuration name="Si1132Test" configurationId="AndroidTestRunConfigurationType" />
-    </history-entry>
     <history-entry file="Si1132Test - 2018.11.12 at 11h 04m 39s.xml">
       <configuration name="Si1132Test" configurationId="AndroidTestRunConfigurationType" />
     </history-entry>
@@ -3987,27 +3970,36 @@
     <history-entry file="ISL29034Test - 2018.11.21 at 12h 05m 38s.xml">
       <configuration name="ISL29034Test" configurationId="AndroidTestRunConfigurationType" />
     </history-entry>
+    <history-entry file="ISL29034Test - 2018.11.21 at 12h 07m 19s.xml">
+      <configuration name="ISL29034Test" configurationId="AndroidTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="ISL29034Test - 2018.11.21 at 12h 10m 39s.xml">
+      <configuration name="ISL29034Test" configurationId="AndroidTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="ISL29034Test - 2018.11.21 at 12h 12m 19s.xml">
+      <configuration name="ISL29034Test" configurationId="AndroidTestRunConfigurationType" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="21" y="31" width="1680" height="978" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Android Profiler" order="7" />
+      <window_info anchor="bottom" id="Android Profiler" order="7" weight="0.3291714" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
-      <window_info id="Build Variants" order="2" sideWeight="0.52284265" side_tool="true" visible="true" weight="0.23626374" />
+      <window_info id="Build Variants" order="2" sideWeight="0.5231788" side_tool="true" visible="true" weight="0.23626374" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3291714" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3291714" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32936978" />
-      <window_info anchor="bottom" id="Logcat" order="7" weight="0.31441543" />
+      <window_info active="true" anchor="bottom" id="Logcat" order="7" visible="true" weight="0.31441543" />
       <window_info id="Captures" order="2" sideWeight="0.49822694" weight="0.2498386" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.47715735" visible="true" weight="0.23626374" />
-      <window_info anchor="bottom" id="Build" order="7" weight="0.32918552" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.47682118" visible="true" weight="0.23626374" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.3291714" />
       <window_info anchor="right" id="Gradle" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Theme Preview" order="3" />
@@ -4239,13 +4231,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CCS811.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2550">
-          <caret line="176" column="9" selection-start-line="172" selection-start-column="8" selection-end-line="176" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CDM7160Co2Driver.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1305">
@@ -4332,52 +4317,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/ADC121.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1695">
-          <caret line="163" column="33" selection-start-line="163" selection-start-column="33" selection-end-line="163" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/Adx345.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="309">
           <caret line="187" column="9" selection-start-line="187" selection-start-column="9" selection-end-line="187" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/Si1132.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6211">
-          <caret line="284" column="38" selection-start-line="284" selection-start-column="38" selection-end-line="284" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#8893#9346#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/io/fabo/faboexample/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="42" column="28" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/driver/src/androidTest/java/io/fabo/driver/Si1132Test.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="389">
-          <caret line="116" column="72" selection-start-line="116" selection-start-column="72" selection-end-line="116" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/Si1132UVDriver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="90" column="21" selection-start-line="90" selection-start-column="21" selection-end-line="90" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -4401,10 +4344,48 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/ADC121.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="533">
+          <caret line="163" column="33" selection-start-line="163" selection-start-column="33" selection-end-line="163" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/driver/src/androidTest/java/io/fabo/driver/ISL29034Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="505">
+          <caret line="79" column="78" selection-start-line="79" selection-start-column="78" selection-end-line="79" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/driver/src/androidTest/java/io/fabo/driver/Si1132Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="116" column="72" selection-start-line="116" selection-start-column="72" selection-end-line="116" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/ISL29034AmbientDriver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="91" column="68" selection-start-line="91" selection-start-column="68" selection-end-line="91" selection-end-column="68" />
+        <state relative-caret-position="314">
+          <caret line="93" column="72" selection-start-line="93" selection-start-column="72" selection-end-line="93" selection-end-column="72" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/Si1132UVDriver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="90" column="21" selection-start-line="90" selection-start-column="21" selection-end-line="90" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/S11059.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="91" column="56" selection-start-line="91" selection-start-column="12" selection-end-line="91" selection-end-column="56" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -4413,28 +4394,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/ISL29034.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2235">
-          <caret line="168" column="29" selection-start-line="168" selection-start-column="16" selection-end-line="168" selection-end-column="29" />
+        <state relative-caret-position="524">
+          <caret line="210" column="34" selection-start-line="210" selection-end-line="211" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/S11059.java">
+    <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/Si1132.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="835">
-          <caret line="91" column="56" selection-start-line="91" selection-start-column="12" selection-end-line="91" selection-end-column="56" />
+        <state relative-caret-position="-774">
+          <caret line="49" column="23" selection-start-line="49" selection-start-column="23" selection-end-line="49" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/driver/src/androidTest/java/io/fabo/driver/ISL29034Test.java">
+    <entry file="file://$PROJECT_DIR$/driver/src/main/java/io/fabo/driver/CCS811.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
-          <caret line="79" column="78" selection-start-line="79" selection-start-column="78" selection-end-line="79" selection-end-column="78" />
+        <state relative-caret-position="1527">
+          <caret line="162" selection-start-line="162" selection-end-line="162" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/io/fabo/faboexample/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="41" column="40" selection-start-line="41" selection-start-column="40" selection-end-line="41" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

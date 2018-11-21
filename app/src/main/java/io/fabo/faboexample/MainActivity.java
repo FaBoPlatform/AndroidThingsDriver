@@ -40,10 +40,10 @@ public class MainActivity extends Activity implements SensorEventListener {
     private boolean BH1749Enable = false;
     private boolean CCS811Enable = false;
     private boolean ADC121Enable = false;
-    private boolean ISL29034Enable = true;
+    private boolean ISL29034Enable = false;
     private boolean Si1132Enable = false;
     private boolean CDM7160Enable = false;
-    private boolean SPS30Enable = false;
+    private boolean SPS30Enable = true;
     private boolean MPL115Enable = false;
 
     private SensorManager mSensorManager;
@@ -273,7 +273,7 @@ public class MainActivity extends Activity implements SensorEventListener {
             Log.i(TAG, "Accelerometer event: " +
                     event.values[0] + ", " + event.values[1] + ", " + event.values[2]);
         } else if(event.sensor.getName().startsWith("FaBoISL29034")) {
-            Log.i(TAG, "Ambient: " + event.values[0] + "(lux)");
+            Log.i(TAG, "Ambient(0-64000): " + event.values[0] + "(lux)");
         } else if(event.sensor.getName().startsWith("FaBoS11059")) {
             Log.i(TAG, "Color event: " + event.values[0] + ", " + event.values[1] + ", "
                     + event.values[2] + ", " + event.values[3]);
