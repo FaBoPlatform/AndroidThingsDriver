@@ -309,17 +309,12 @@ public class BH1749 implements AutoCloseable {
      * Read VALID Register
      * @return
      */
-    public boolean readValid() {
-        try {
-            byte value = mDevice.readRegByte(REG_MODE_CONTROL2);
+    public boolean readValid() throws IOException, IllegalStateException {
+       byte value = mDevice.readRegByte(REG_MODE_CONTROL2);
 
-            if((value & VALID_MASK) == VALID_MASK) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        if((value & VALID_MASK) == VALID_MASK) {
+            return true;
+        } else {
             return false;
         }
     }
