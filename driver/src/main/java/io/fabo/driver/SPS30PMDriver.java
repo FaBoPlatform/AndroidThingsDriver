@@ -83,7 +83,6 @@ public class SPS30PMDriver implements AutoCloseable {
                 .setDriver(new UserSensorDriver() {
                     @Override
                     public UserSensorReading read() throws IOException {
-                        Log.i("TEST", "" + sps30.checkReady());
                         if(sps30.checkReady()) {
                             float data[] = sps30.readData();
                             return new UserSensorReading(data);
@@ -95,8 +94,15 @@ public class SPS30PMDriver implements AutoCloseable {
                     @Override
                     public void setEnabled(boolean enabled) throws IOException {
                         if (enabled) {
-                            sps30.reset();
-                            sps30.start();
+                            if(sps30.checkSerial()) {
+                                sps30.reset();
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                sps30.start();
+                            }
                         } else {
                             sps30.stop();
                         }
