@@ -88,11 +88,13 @@ public class ISL29034AmbientDriver implements AutoCloseable {
                     @Override
                     public void setEnabled(boolean enabled) throws IOException {
                         if (enabled) {
-                            isl29034.setOperation(isl29034.ISL29034_OP_ALS_CONT);
-                            isl29034.setRange(isl29034.ISL29034_FS_3);
-                            isl29034.setResolution(isl29034.ISL29034_RES_16);
+                            if(isl29034.whoAmI()) {
+                                isl29034.setRange(ISL29034.RANGE_3);
+                                isl29034.setResolution(ISL29034.RES_16);
+                                isl29034.setOperation(ISL29034.MODE_ALS_CONTINUS);
+                            }
                         } else {
-                            // ToDo
+                            isl29034.setOperation(ISL29034.MODE_POWER_DOWN);
                         }
                     }
                 })

@@ -1,12 +1,14 @@
 package io.fabo.driver;
 
+import android.support.annotation.IntDef;
+
 import com.google.android.things.pio.I2cDevice;
 import com.google.android.things.pio.PeripheralManager;
 
 import java.io.IOException;
 
 public class ISL29034 implements AutoCloseable {
-    private static final String TAG = Adx345.class.getSimpleName();
+    private static final String TAG = ISL29034.class.getSimpleName();
 
     /**
      * I2C slave address of the ISL29034.
@@ -14,43 +16,60 @@ public class ISL29034 implements AutoCloseable {
     public final int I2C_ADDRESS = 0x44;
 
     /** ISL29034 Device ID(xx101xxx). */
-    private final byte ISL29034_DEVICE_ID = 0x28;
+    private final byte DEVICE_ID = 0x28;
 
     /** Register Addresses. */
-    private final byte ISL29034_REG_CMD1 = 0x00;
-    private final byte ISL29034_REG_CMD2 = 0x01;
-    private final byte ISL29034_REG_DATA_L = 0x02;
-    private final byte ISL29034_REG_DATA_H = 0x03;
-    private final byte ISL29034_REG_ID = 0x0F;
+    private final byte REG_CMD1 = 0x00;
+    private final byte REG_CMD2 = 0x01;
+    private final byte REG_DATA_L = 0x02;
+    private final byte REG_DATA_H = 0x03;
+    private final byte REG_ID = 0x0F;
 
-    // Operation Mode
-    /** Power-down the device(Default). */
-    private final byte ISL29034_OP_PWR_DOWN = 0x00;
-    /** Measures ALS continuously. */
-    public  final byte ISL29034_OP_ALS_CONT = (byte)0xA0;
+    /**
+     * Operation Mode.
+     */
+    public final static int MODE_POWER_DOWN = 0b000<<5;
+    public final static int MODE_ALS_ONCE = 0b001<<5;
+    public final static int MODE_IR_ONCE = 0b010<<5;
+    public final static int MODE_ALS_CONTINUS = 0b101<<5;
+    public final static int MODE_IR_CONTINUS = 0b110<<5;
+    @IntDef({MODE_POWER_DOWN, MODE_ALS_ONCE, MODE_IR_ONCE, MODE_ALS_CONTINUS, MODE_IR_CONTINUS})
+    public @interface ControlMode {}
 
-    /** FULL SCALE LUX RANGE. */
-    public  final byte ISL29034_FS_0 = 0x00; //< 1,000(Default)
-    public  final byte ISL29034_FS_1 = 0x01; //< 4,000
-    public  final byte ISL29034_FS_2 = 0x02; //< 16,000
-    public  final byte ISL29034_FS_3 = 0x03; //< 64,000
+    /**
+     * Full scale lux range.
+     */
+    public final static int RANGE_0 = 0b00; //< 1,000(Default)
+    public final static int RANGE_1 = 0b01; //< 4,000
+    public final static int RANGE_2 = 0b10; //< 16,000
+    public final static int RANGE_3 = 0b11; //< 64,000
+    @IntDef({RANGE_0, RANGE_1, RANGE_2, RANGE_3})
+    public @interface luxRange {}
 
-    /** ADC RESOLUTION. */
-    public  final byte ISL29034_RES_16 = 0x00; //< 16bit(Default)
-    public  final byte ISL29034_RES_12 = 0x04; //< 12bit
-    public  final byte ISL29034_RES_8 = 0x08; //< 8bit
-    public  final byte ISL29034_RES_4 = 0x0C; //< 4bit
+    /**
+     * ADC RESOLUTION.
+     */
+    public final static int RES_16 = 0b00<<2; //< 16bit(Default)
+    public final static int RES_12 = 0b01<<2; //< 12bit
+    public final static int RES_8 = 0b10<<2; //< 8bit
+    public final static int  RES_4 = 0b11<<2; //< 4bit
+    @IntDef({RES_16, RES_12, RES_8, RES_4})
+    public @interface adcResolution {}
 
-    /** ISL29034 Device ID Mask(00111000). */
-    public  final byte ISL29034_ID_MASK = 0x38;
+
+    private final int OFFSET_RANGE = 0b00000011;
+    private final int OFFSET_RES = 0b00001100;
+    public  final int OFFSET_DEVICE_ID = 0b00111000;
+    private final int OFFSET_BIT_8 = 0b11111111;
+    private final int OFFSET_BIT_4 = 0b00001111;
 
     private I2cDevice mDevice;
 
-    private byte mRange;
-    private byte mResolution;
+    private static int mRange;
+    private static int mResolution;
 
     /**
-     * Create a new Adx345 driver connected to the given I2C bus.
+     * Create a new ISL29034 driver connected to the given I2C bus.
      * @param bus
      * @throws IOException
      */
@@ -69,7 +88,7 @@ public class ISL29034 implements AutoCloseable {
     }
 
     /**
-     * Create a new Adx345 driver connected to the given I2C device.
+     * Create a new ISL29034 driver connected to the given I2C device.
      * @param device
      * @throws IOException
      */
@@ -104,8 +123,8 @@ public class ISL29034 implements AutoCloseable {
      */
     public boolean whoAmI() {
         try {
-            byte value = mDevice.readRegByte(ISL29034_REG_ID);
-            if((value & ISL29034_ID_MASK) == ISL29034_DEVICE_ID) {
+            byte value = mDevice.readRegByte(REG_ID);
+            if((value & OFFSET_DEVICE_ID) == DEVICE_ID) {
                 return true;
             } else {
                 return false;
@@ -117,11 +136,11 @@ public class ISL29034 implements AutoCloseable {
 
     /**
      * Set Operation Mode.
-     * @param operation Operation Mode
+     * @param controlMode Operation Mode
      */
-    public void setOperation(byte operation) {
+    public void setOperation(@ControlMode int controlMode) {
         try {
-            mDevice.writeRegByte(ISL29034_REG_CMD1, operation);
+            mDevice.writeRegByte(REG_CMD1, (byte)controlMode);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -131,13 +150,13 @@ public class ISL29034 implements AutoCloseable {
      * Set FullScale Range.
      * @param range FullScale Range
      */
-    public void setRange(byte range) {
+    public void setRange(@luxRange int range) {
         mRange = range;
         try {
-            byte data = mDevice.readRegByte(ISL29034_REG_CMD2);
-            data &= 0xFC; // 11111100
+            byte data = mDevice.readRegByte(REG_CMD2);
+            data &= OFFSET_RANGE;
             data |= range;
-            mDevice.writeRegByte(ISL29034_REG_CMD2, data);
+            mDevice.writeRegByte(REG_CMD2, data);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -147,13 +166,13 @@ public class ISL29034 implements AutoCloseable {
      * Set ADC Resolution.
      * @param resolution Resolution
      */
-    public void setResolution(byte resolution) {
+    public void setResolution(@adcResolution int resolution) {
         mResolution = resolution;
         try {
-            byte data = mDevice.readRegByte(ISL29034_REG_CMD2);
-            data &= 0xF3; // 11111100
+            byte data = mDevice.readRegByte(REG_CMD2);
+            data &= OFFSET_RES;
             data |= resolution;
-            mDevice.writeRegByte(ISL29034_REG_CMD2, data);
+            mDevice.writeRegByte(REG_CMD2, data);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -166,30 +185,35 @@ public class ISL29034 implements AutoCloseable {
      */
     private int readADC() {
         byte data[] = new byte[2];
+        int adc = 0;
         try {
             switch (mResolution) {
-                case ISL29034_RES_16:
-                    Thread.sleep(90);
+                case RES_16:
+                    Thread.sleep(105);
+                    adc = (int)(data[1]&OFFSET_BIT_8)<<8 | (int)(data[0]&OFFSET_BIT_8);
                     break;
-                case ISL29034_RES_12:
+                case RES_12:
                     Thread.sleep(6);
+                    adc = (int)(data[1]&OFFSET_BIT_4)<<8 | (int)(data[0]&OFFSET_BIT_8);
                     break;
-                case ISL29034_RES_8:
+                case RES_8:
                     Thread.sleep(0,352);
+                    adc = (int)(data[0]&OFFSET_BIT_8);
                     break;
-                case ISL29034_RES_4:
+                case RES_4:
                     Thread.sleep(0,22);
+                    adc = (int)(data[0]&OFFSET_BIT_4);
                     break;
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         try {
-            mDevice.readRegBuffer(ISL29034_REG_DATA_L, data, 2);
+            mDevice.readRegBuffer(REG_DATA_L, data, 2);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        int adc = (((int)data[1]&0xff)<<8) | (int)data[0]&0xff;
+
         return adc;
     }
 
@@ -203,35 +227,36 @@ public class ISL29034 implements AutoCloseable {
         int count = 0;
 
         switch (mRange) {
-            case ISL29034_FS_0:
+            case RANGE_0:
                 range = 1000;
                 break;
-            case ISL29034_FS_1:
+            case RANGE_1:
                 range = 4000;
                 break;
-            case ISL29034_FS_2:
+            case RANGE_2:
                 range = 16000;
                 break;
-            case ISL29034_FS_3:
+            case RANGE_3:
                 range = 64000;
                 break;
         }
 
         switch (mResolution) {
-            case ISL29034_RES_16:
-                count = 65535;
+            case RES_16:
+                count = 2^16;
                 break;
-            case ISL29034_RES_12:
-                count = 4095;
+            case RES_12:
+                count = 2^12;
                 break;
-            case ISL29034_RES_8:
-                count = 255;
+            case RES_8:
+                count = 2^8;
                 break;
-            case ISL29034_RES_4:
-                count = 15;
+            case RES_4:
+                count = 2^4;
                 break;
         }
 
         return ((float)range / (float)count) * (float)adc;
     }
+
 }
